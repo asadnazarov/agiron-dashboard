@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f1f3f7;
+  --border: #e2e5eb;
+  --header-bg: rgba(255, 255, 255, 0.72);
+  --ink: #0f1115;
+  --ink-soft: #5c616c;
+  --ink-faint: #9aa0ab;
+  --accent: #1b2a5e;
+  --accent-soft: #e8ebf4;
+  --success: #157347;
+  --success-soft: #e3f3ea;
+  --warning: #a15c07;
+  --warning-soft: #f5eee0;
+  --danger: #a3123f;
+  --danger-soft: #f5e5ea;
+  --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.02), 0 20px 48px -24px rgba(0, 0, 0, 0.16);
+  --shadow-nav: 0 16px 44px -8px rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0d0c11;
+  --surface: #17161d;
+  --surface-2: #1e1c24;
+  --border: #2b2932;
+  --header-bg: rgba(23, 22, 29, 0.72);
+  --ink: #f3f2f6;
+  --ink-soft: #9d9aa5;
+  --ink-faint: #656370;
+  --accent: #6c6cf9;
+  --accent-soft: #23224a;
+  --success: #34d399;
+  --success-soft: #113026;
+  --warning: #f0b84c;
+  --warning-soft: #33280f;
+  --danger: #f2607e;
+  --danger-soft: #351824;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.02), 0 20px 48px -24px rgba(0, 0, 0, 0.6);
+  --shadow-nav: 0 16px 44px -8px rgba(0, 0, 0, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.font-heading {
+  font-family: "Sora", sans-serif;
+}

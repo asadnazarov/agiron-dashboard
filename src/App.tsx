@@ -1,0 +1,71 @@
+import { useEffect, useState } from "react";
+import { Header } from "./components/Header";
+import { BottomDock } from "./components/BottomDock";
+import { DashboardPage } from "./pages/DashboardPage";
+import { VazifalarPage } from "./pages/VazifalarPage";
+import { api } from "./lib/api";
+import type { Employee, Task } from "./lib/types";
+
+type Theme = "light" | "dark";
+
+function App() {
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem("theme") as Theme) || "light");
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const [emps, tsks] = await Promise.all([api.getEmployees(), api.getTasks()]);
+        if (!cancelled) {
+          setEmployees(emps);
+          setTasks(tsks);
+          setError(null);
+        }
+      } catch (e) {
+        if (!cancelled) setError((e as Error).message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    const interval = setInterval(load, 30_000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div style={{ background: "var(--bg)", minHeight: "100%" }}>
+      <Header activeTab={activeTab} theme={theme} onThemeChange={setTheme} />
+
+      {loading ? (
+        <div className="px-12 py-10 text-[14px]" style={{ color: "var(--ink-soft)" }}>
+          Yuklanmoqda...
+        </div>
+      ) : error ? (
+        <div className="px-12 py-10 text-[14px]" style={{ color: "var(--danger)" }}>
+          Xatolik: {error}. Backend API ishga tushirilganini tekshiring (bot/npm run dev).
+        </div>
+      ) : activeTab === "dashboard" ? (
+        <DashboardPage tasks={tasks} employees={employees} />
+      ) : (
+        <VazifalarPage tasks={tasks} employees={employees} />
+      )}
+
+      <BottomDock active={activeTab} onChange={setActiveTab} />
+    </div>
+  );
+}
+
+export default App;

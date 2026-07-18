@@ -1,9 +1,18 @@
 import { useMemo, useState } from "react";
-import type { Employee, Task } from "../lib/types";
-import { TaskRow } from "../components/TaskRow";
+import type { ChecklistItem, Employee, Task } from "../lib/types";
+import { TaskCard } from "../components/TaskCard";
 
-export function VazifalarPage({ tasks, employees }: { tasks: Task[]; employees: Employee[] }) {
+export function VazifalarPage({
+  tasks,
+  employees,
+  onChecklistChange,
+}: {
+  tasks: Task[];
+  employees: Employee[];
+  onChecklistChange: (taskId: string, checklist: ChecklistItem[]) => void;
+}) {
   const [filter, setFilter] = useState<string>("all");
+  const employeeById = useMemo(() => new Map(employees.map((e) => [e.id, e])), [employees]);
 
   const grouped = useMemo(() => {
     const filtered = filter === "all" ? tasks : tasks.filter((t) => t.assigneeId === filter);
@@ -19,7 +28,7 @@ export function VazifalarPage({ tasks, employees }: { tasks: Task[]; employees: 
   }, [tasks, employees, filter]);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 pb-[220px] pt-10">
+    <div className="mx-auto max-w-6xl px-6 pb-[220px] pt-10">
       <h1 className="font-heading text-[30px] font-semibold" style={{ color: "var(--ink)" }}>
         Vazifalar
       </h1>
@@ -34,7 +43,7 @@ export function VazifalarPage({ tasks, employees }: { tasks: Task[]; employees: 
         ))}
       </div>
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-6 space-y-8">
         {grouped.length === 0 ? (
           <div
             className="rounded-[20px] border px-5 py-8 text-center text-[13px]"
@@ -44,23 +53,26 @@ export function VazifalarPage({ tasks, employees }: { tasks: Task[]; employees: 
           </div>
         ) : (
           grouped.map((g) => (
-            <div
-              key={g.employee.id}
-              className="overflow-hidden rounded-[20px] border"
-              style={{ borderColor: "var(--border)", background: "var(--surface)", boxShadow: "var(--shadow-card)" }}
-            >
-              <div
-                className="font-heading flex items-center justify-between border-b px-5 py-4 text-[16px] font-semibold"
-                style={{ borderColor: "var(--border)", color: "var(--ink)" }}
-              >
-                <span>{g.employee.name}</span>
+            <div key={g.employee.id}>
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="font-heading text-[16px] font-semibold" style={{ color: "var(--ink)" }}>
+                  {g.employee.name}
+                </h2>
                 <span className="text-[12px]" style={{ color: "var(--ink-faint)" }}>
                   {g.tasks.length} ta vazifa
                 </span>
               </div>
-              {g.tasks.map((t) => (
-                <TaskRow key={t.id} task={t} assigneeName={g.employee.name} />
-              ))}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {g.tasks.map((t) => (
+                  <TaskCard
+                    key={t.id}
+                    task={t}
+                    assignee={employeeById.get(t.assigneeId)}
+                    createdByName={employeeById.get(t.createdBy)?.name || t.createdBy}
+                    onChecklistChange={onChecklistChange}
+                  />
+                ))}
+              </div>
             </div>
           ))
         )}

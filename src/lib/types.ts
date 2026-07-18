@@ -8,6 +8,11 @@ export interface Employee {
 
 export type TaskStatus = "new" | "in_progress" | "done" | "overdue";
 
+export interface ChecklistItem {
+  text: string;
+  done: boolean;
+}
+
 export interface Task {
   id: string;
   createdAt: string;
@@ -20,6 +25,7 @@ export interface Task {
   completedAt: string;
   lastReminderAt: string;
   source: "voice" | "text";
+  checklist: ChecklistItem[];
 }
 
 export interface ReportRow {

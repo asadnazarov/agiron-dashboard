@@ -4,7 +4,7 @@ import { BottomDock } from "./components/BottomDock";
 import { DashboardPage } from "./pages/DashboardPage";
 import { VazifalarPage } from "./pages/VazifalarPage";
 import { api } from "./lib/api";
-import type { Employee, Task } from "./lib/types";
+import type { ChecklistItem, Employee, Task } from "./lib/types";
 
 type Theme = "light" | "dark";
 
@@ -45,6 +45,11 @@ function App() {
     };
   }, []);
 
+  function handleChecklistChange(taskId: string, checklist: ChecklistItem[]) {
+    setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, checklist } : t)));
+    api.updateChecklist(taskId, checklist).catch((e) => console.error("updateChecklist failed:", e));
+  }
+
   return (
     <div style={{ background: "var(--bg)", minHeight: "100%" }}>
       <Header activeTab={activeTab} theme={theme} onThemeChange={setTheme} />
@@ -60,7 +65,7 @@ function App() {
       ) : activeTab === "dashboard" ? (
         <DashboardPage tasks={tasks} employees={employees} />
       ) : (
-        <VazifalarPage tasks={tasks} employees={employees} />
+        <VazifalarPage tasks={tasks} employees={employees} onChecklistChange={handleChecklistChange} />
       )}
 
       <BottomDock active={activeTab} onChange={setActiveTab} />

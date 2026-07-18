@@ -1,6 +1,7 @@
 import { useState } from "react";
-import type { ChecklistItem, Employee, Task } from "../lib/types";
+import type { ChecklistItem, Employee, Task, TaskStatus } from "../lib/types";
 import { StatusBadge } from "./StatusBadge";
+import { TaskEditModal } from "./TaskEditModal";
 
 function formatDate(iso: string): string {
   if (!iso) return "—";
@@ -21,15 +22,32 @@ function initials(name: string): string {
 export function TaskCard({
   task,
   assignee,
+  employees,
   createdByName,
   onChecklistChange,
+  onTaskUpdate,
+  onTaskDelete,
 }: {
   task: Task;
   assignee?: Employee;
+  employees: Employee[];
   createdByName: string;
   onChecklistChange: (taskId: string, checklist: ChecklistItem[]) => void;
+  onTaskUpdate: (
+    taskId: string,
+    patch: {
+      description: string;
+      assigneeId: string;
+      status: TaskStatus;
+      deadlineIso: string;
+      deadlineDisplay: string;
+      checklist: ChecklistItem[];
+    }
+  ) => void;
+  onTaskDelete: (taskId: string) => void;
 }) {
   const [newItemText, setNewItemText] = useState("");
+  const [editing, setEditing] = useState(false);
   const checklist = task.checklist || [];
   const total = checklist.length;
   const doneCount = checklist.filter((c) => c.done).length;
@@ -53,21 +71,21 @@ export function TaskCard({
     setNewItemText("");
   }
 
+  function handleDelete() {
+    if (window.confirm("Bu vazifani o'chirishni tasdiqlaysizmi?")) {
+      onTaskDelete(task.id);
+    }
+  }
+
   return (
     <div
       className="overflow-hidden rounded-2xl border"
       style={{ borderColor: "var(--border)", background: "var(--surface)", boxShadow: "var(--shadow-card)" }}
     >
-      <div
-        className="h-[5px] w-full"
-        style={{ background: "var(--surface-2)" }}
-      >
+      <div className="h-[5px] w-full" style={{ background: "var(--surface-2)" }}>
         <div
           className="h-full transition-all"
-          style={{
-            width: `${progress}%`,
-            background: progress >= 100 ? "var(--success)" : "var(--accent)",
-          }}
+          style={{ width: `${progress}%`, background: progress >= 100 ? "var(--success)" : "var(--accent)" }}
         />
       </div>
 
@@ -82,9 +100,17 @@ export function TaskCard({
           >
             {task.description}
           </h3>
-          <span className="font-heading shrink-0 text-[12px] font-semibold" style={{ color: "var(--ink-soft)" }}>
-            {progress}%
-          </span>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="font-heading text-[12px] font-semibold" style={{ color: "var(--ink-soft)" }}>
+              {progress}%
+            </span>
+            <button onClick={() => setEditing(true)} aria-label="Tahrirlash" style={{ color: "var(--ink-faint)" }}>
+              ✏️
+            </button>
+            <button onClick={handleDelete} aria-label="O'chirish" style={{ color: "var(--ink-faint)" }}>
+              🗑️
+            </button>
+          </div>
         </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -171,6 +197,18 @@ export function TaskCard({
           </span>
         </div>
       </div>
+
+      {editing && (
+        <TaskEditModal
+          task={task}
+          employees={employees}
+          onClose={() => setEditing(false)}
+          onSave={(patch) => {
+            onTaskUpdate(task.id, patch);
+            setEditing(false);
+          }}
+        />
+      )}
     </div>
   );
 }

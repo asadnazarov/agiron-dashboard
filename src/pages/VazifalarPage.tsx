@@ -1,15 +1,29 @@
 import { useMemo, useState } from "react";
-import type { ChecklistItem, Employee, Task } from "../lib/types";
+import type { ChecklistItem, Employee, Task, TaskStatus } from "../lib/types";
 import { TaskCard } from "../components/TaskCard";
 
 export function VazifalarPage({
   tasks,
   employees,
   onChecklistChange,
+  onTaskUpdate,
+  onTaskDelete,
 }: {
   tasks: Task[];
   employees: Employee[];
   onChecklistChange: (taskId: string, checklist: ChecklistItem[]) => void;
+  onTaskUpdate: (
+    taskId: string,
+    patch: {
+      description: string;
+      assigneeId: string;
+      status: TaskStatus;
+      deadlineIso: string;
+      deadlineDisplay: string;
+      checklist: ChecklistItem[];
+    }
+  ) => void;
+  onTaskDelete: (taskId: string) => void;
 }) {
   const [filter, setFilter] = useState<string>("all");
   const employeeById = useMemo(() => new Map(employees.map((e) => [e.id, e])), [employees]);
@@ -68,8 +82,11 @@ export function VazifalarPage({
                     key={t.id}
                     task={t}
                     assignee={employeeById.get(t.assigneeId)}
+                    employees={employees}
                     createdByName={employeeById.get(t.createdBy)?.name || t.createdBy}
                     onChecklistChange={onChecklistChange}
+                    onTaskUpdate={onTaskUpdate}
+                    onTaskDelete={onTaskDelete}
                   />
                 ))}
               </div>

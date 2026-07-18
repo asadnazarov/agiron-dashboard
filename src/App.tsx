@@ -4,7 +4,7 @@ import { BottomDock } from "./components/BottomDock";
 import { DashboardPage } from "./pages/DashboardPage";
 import { VazifalarPage } from "./pages/VazifalarPage";
 import { api } from "./lib/api";
-import type { ChecklistItem, Employee, Task } from "./lib/types";
+import type { ChecklistItem, Employee, Task, TaskStatus } from "./lib/types";
 
 type Theme = "light" | "dark";
 
@@ -50,6 +50,26 @@ function App() {
     api.updateChecklist(taskId, checklist).catch((e) => console.error("updateChecklist failed:", e));
   }
 
+  function handleTaskUpdate(
+    taskId: string,
+    patch: {
+      description: string;
+      assigneeId: string;
+      status: TaskStatus;
+      deadlineIso: string;
+      deadlineDisplay: string;
+      checklist: ChecklistItem[];
+    }
+  ) {
+    setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, ...patch } : t)));
+    api.updateTask(taskId, patch).catch((e) => console.error("updateTask failed:", e));
+  }
+
+  function handleTaskDelete(taskId: string) {
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    api.deleteTask(taskId).catch((e) => console.error("deleteTask failed:", e));
+  }
+
   return (
     <div style={{ background: "var(--bg)", minHeight: "100%" }}>
       <Header activeTab={activeTab} theme={theme} onThemeChange={setTheme} />
@@ -65,7 +85,13 @@ function App() {
       ) : activeTab === "dashboard" ? (
         <DashboardPage tasks={tasks} employees={employees} />
       ) : (
-        <VazifalarPage tasks={tasks} employees={employees} onChecklistChange={handleChecklistChange} />
+        <VazifalarPage
+          tasks={tasks}
+          employees={employees}
+          onChecklistChange={handleChecklistChange}
+          onTaskUpdate={handleTaskUpdate}
+          onTaskDelete={handleTaskDelete}
+        />
       )}
 
       <BottomDock active={activeTab} onChange={setActiveTab} />

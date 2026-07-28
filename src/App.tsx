@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { BottomDock } from "./components/BottomDock";
 import { DashboardPage } from "./pages/DashboardPage";
 import { VazifalarPage } from "./pages/VazifalarPage";
+import { ComingSoonPage } from "./pages/ComingSoonPage";
 import { api } from "./lib/api";
 import type { ChecklistItem, Employee, Task, TaskStatus } from "./lib/types";
 
@@ -84,7 +85,7 @@ function App() {
         </div>
       ) : activeTab === "dashboard" ? (
         <DashboardPage tasks={tasks} employees={employees} />
-      ) : (
+      ) : activeTab === "tasks" ? (
         <VazifalarPage
           tasks={tasks}
           employees={employees}
@@ -92,6 +93,10 @@ function App() {
           onTaskUpdate={handleTaskUpdate}
           onTaskDelete={handleTaskDelete}
         />
+      ) : activeTab === "products" ? (
+        <ComingSoonPage title="Mahsulotlar" />
+      ) : (
+        <ComingSoonPage title="Ombor" />
       )}
 
       <BottomDock active={activeTab} onChange={setActiveTab} />

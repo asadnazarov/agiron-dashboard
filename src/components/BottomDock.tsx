@@ -38,6 +38,28 @@ const ITEMS: DockItem[] = [
       </svg>
     ),
   },
+  {
+    key: "products",
+    label: "Mahsulotlar",
+    icon: (
+      <svg {...ICON_PROPS}>
+        <path d="M21 8 12 3 3 8l9 5 9-5Z" />
+        <path d="M3 8v8l9 5 9-5V8" />
+        <path d="M12 13v8" />
+      </svg>
+    ),
+  },
+  {
+    key: "warehouse",
+    label: "Ombor",
+    icon: (
+      <svg {...ICON_PROPS}>
+        <path d="M3 10 12 4l9 6" />
+        <path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9" />
+        <path d="M9 20v-6h6v6" />
+      </svg>
+    ),
+  },
 ];
 
 export function BottomDock({ active, onChange }: { active: string; onChange: (key: string) => void }) {

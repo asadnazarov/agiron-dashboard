@@ -3,6 +3,8 @@ type Theme = "light" | "dark";
 const PAGE_TITLES: Record<string, string> = {
   dashboard: "Bosh sahifa",
   tasks: "Vazifalar",
+  products: "Mahsulotlar",
+  warehouse: "Ombor",
 };
 
 export function Header({

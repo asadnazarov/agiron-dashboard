@@ -3,7 +3,8 @@ import { Header } from "./components/Header";
 import { BottomDock } from "./components/BottomDock";
 import { DashboardPage } from "./pages/DashboardPage";
 import { VazifalarPage } from "./pages/VazifalarPage";
-import { ComingSoonPage } from "./pages/ComingSoonPage";
+import { MahsulotlarPage } from "./pages/MahsulotlarPage";
+import { OmborPage } from "./pages/OmborPage";
 import { api } from "./lib/api";
 import type { ChecklistItem, Employee, Task, TaskStatus } from "./lib/types";
 
@@ -94,9 +95,9 @@ function App() {
           onTaskDelete={handleTaskDelete}
         />
       ) : activeTab === "products" ? (
-        <ComingSoonPage title="Mahsulotlar" />
+        <MahsulotlarPage employees={employees} />
       ) : (
-        <ComingSoonPage title="Ombor" />
+        <OmborPage />
       )}
 
       <BottomDock active={activeTab} onChange={setActiveTab} />

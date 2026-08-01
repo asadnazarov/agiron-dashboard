@@ -40,11 +40,20 @@ export function OmborPage() {
         Ombor
       </h1>
       <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
-        Sirye qoldiqlari
+        Xomashyo qoldiqlari
       </p>
 
+      <button
+        onClick={() => setModalOpen(true)}
+        className="font-heading mt-5 flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13.5px] font-semibold text-white"
+        style={{ background: "var(--accent)" }}
+        aria-label="Xomashyo qo'shish"
+      >
+        <span className="text-[16px]">+</span> Xomashyo qo'shish
+      </button>
+
       <div
-        className="mt-6 overflow-hidden rounded-[20px] border"
+        className="mt-4 overflow-hidden rounded-[20px] border"
         style={{ borderColor: "var(--border)", background: "var(--surface)", boxShadow: "var(--shadow-card)" }}
       >
         {loading ? (
@@ -53,7 +62,7 @@ export function OmborPage() {
           </div>
         ) : materials.length === 0 ? (
           <div className="px-5 py-8 text-center text-[13px]" style={{ color: "var(--ink-soft)" }}>
-            Hozircha sirye yo'q
+            Hozircha xomashyo yo'q
           </div>
         ) : (
           materials.map((m, i) => (
@@ -80,15 +89,6 @@ export function OmborPage() {
           ))
         )}
       </div>
-
-      <button
-        onClick={() => setModalOpen(true)}
-        className="font-heading fixed bottom-28 right-6 flex h-14 w-14 items-center justify-center rounded-full text-[26px] text-white"
-        style={{ background: "var(--accent)", boxShadow: "var(--shadow-nav)" }}
-        aria-label="Sirye qo'shish"
-      >
-        +
-      </button>
 
       {modalOpen && (
         <MaterialStockModal

@@ -13,7 +13,8 @@ export function MaterialStockModal({
   onAddStock: (materialId: string, addQuantity: number) => void;
   onCreate: (input: { name: string; unit: string; initialQuantity: number }) => void;
 }) {
-  const [mode, setMode] = useState<"existing" | "new">("existing");
+  const hasMaterials = materials.length > 0;
+  const [mode, setMode] = useState<"existing" | "new">(hasMaterials ? "existing" : "new");
   const [materialId, setMaterialId] = useState(materials[0]?.id || "");
   const [addQuantity, setAddQuantity] = useState("0");
   const [name, setName] = useState("");
@@ -39,21 +40,23 @@ export function MaterialStockModal({
       >
         <div className="flex items-center justify-between">
           <h2 className="font-heading text-[18px] font-semibold" style={{ color: "var(--ink)" }}>
-            Sirye
+            Xomashyo
           </h2>
           <button onClick={onClose} style={{ color: "var(--ink-faint)" }} aria-label="Yopish">
             ✕
           </button>
         </div>
 
-        <div className="mt-3 flex gap-2">
-          <ModeChip active={mode === "existing"} label="Mavjud sirye" onClick={() => setMode("existing")} />
-          <ModeChip active={mode === "new"} label="Yangi sirye" onClick={() => setMode("new")} />
-        </div>
+        {hasMaterials && (
+          <div className="mt-3 flex gap-2">
+            <ModeChip active={mode === "existing"} label="Mavjud xomashyo" onClick={() => setMode("existing")} />
+            <ModeChip active={mode === "new"} label="Yangi xomashyo" onClick={() => setMode("new")} />
+          </div>
+        )}
 
-        {mode === "existing" ? (
+        {mode === "existing" && hasMaterials ? (
           <>
-            <Field label="Sirye">
+            <Field label="Xomashyo">
               <select
                 value={materialId}
                 onChange={(e) => setMaterialId(e.target.value)}
@@ -96,7 +99,7 @@ export function MaterialStockModal({
                   style={{ borderColor: "var(--border)", background: "var(--bg)", color: "var(--ink)" }}
                 />
               </Field>
-              <Field label="Boshlang'ich miqdor">
+              <Field label="Miqdor">
                 <input
                   type="number"
                   value={initialQuantity}

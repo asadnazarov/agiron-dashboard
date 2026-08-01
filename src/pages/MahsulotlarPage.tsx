@@ -74,10 +74,19 @@ export function MahsulotlarPage({ employees }: { employees: Employee[] }) {
         Mahsulotlar
       </h1>
       <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
-        Ishlab chiqarish tarixi va sarflangan sirye
+        Ishlab chiqarish tarixi va sarflangan xomashyo
       </p>
 
-      <div className="mt-6 space-y-4">
+      <button
+        onClick={() => setModalOpen(true)}
+        className="font-heading mt-5 flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13.5px] font-semibold text-white"
+        style={{ background: "var(--accent)" }}
+        aria-label="Yangi yozuv qo'shish"
+      >
+        <span className="text-[16px]">+</span> Yangi yozuv qo'shish
+      </button>
+
+      <div className="mt-4 space-y-4">
         {loading ? (
           <div className="text-[13px]" style={{ color: "var(--ink-soft)" }}>
             Yuklanmoqda...
@@ -151,15 +160,6 @@ export function MahsulotlarPage({ employees }: { employees: Employee[] }) {
           ))
         )}
       </div>
-
-      <button
-        onClick={() => setModalOpen(true)}
-        className="font-heading fixed bottom-28 right-6 flex h-14 w-14 items-center justify-center rounded-full text-[26px] text-white"
-        style={{ background: "var(--accent)", boxShadow: "var(--shadow-nav)" }}
-        aria-label="Yangi yozuv qo'shish"
-      >
-        +
-      </button>
 
       {modalOpen && (
         <ProductionEntryModal

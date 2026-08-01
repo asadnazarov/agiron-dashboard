@@ -110,19 +110,23 @@ export function ProductionEntryModal({
                 setShowSuggestions(true);
               }}
               onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
               placeholder="Masalan: 2 metrli krovat"
               className="w-full rounded-lg border px-3 py-2 text-[13.5px] outline-none"
               style={{ borderColor: "var(--border)", background: "var(--bg)", color: "var(--ink)" }}
             />
             {showSuggestions && suggestions.length > 0 && (
               <div
-                className="absolute z-10 mt-1 w-full overflow-hidden rounded-lg border"
+                className="absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border"
                 style={{ borderColor: "var(--border)", background: "var(--surface)", boxShadow: "var(--shadow-card)" }}
               >
                 {suggestions.map((s) => (
                   <button
                     key={s.productName}
-                    onClick={() => selectProduct(s.productName)}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      selectProduct(s.productName);
+                    }}
                     className="block w-full px-3 py-2 text-left text-[13px] hover:bg-[var(--surface-2)]"
                     style={{ color: "var(--ink)" }}
                   >
@@ -162,8 +166,13 @@ export function ProductionEntryModal({
 
         <div className="mt-4">
           <div className="mb-1.5 text-[12px] font-medium" style={{ color: "var(--ink-soft)" }}>
-            Sarflangan sirye
+            Sarflangan xomashyo
           </div>
+          {materials.length === 0 ? (
+            <div className="text-[12.5px]" style={{ color: "var(--ink-faint)" }}>
+              Avval Ombor bo'limida xomashyo qo'shing.
+            </div>
+          ) : (
           <div className="space-y-2">
             {rows.map((row) => (
               <div key={row.key} className="rounded-lg border p-2" style={{ borderColor: "var(--border)" }}>
@@ -206,9 +215,12 @@ export function ProductionEntryModal({
               </div>
             ))}
           </div>
-          <button onClick={addRow} className="mt-2 text-[13px] font-medium" style={{ color: "var(--accent)" }}>
-            + Sirye qo'shish
-          </button>
+          )}
+          {materials.length > 0 && (
+            <button onClick={addRow} className="mt-2 text-[13px] font-medium" style={{ color: "var(--accent)" }}>
+              + Xomashyo qo'shish
+            </button>
+          )}
         </div>
 
         <button

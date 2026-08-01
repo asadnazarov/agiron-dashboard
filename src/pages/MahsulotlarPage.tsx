@@ -144,7 +144,7 @@ export function MahsulotlarPage({ employees }: { employees: Employee[] }) {
                         color: m.source === "company" ? "var(--accent)" : "var(--ink-soft)",
                       }}
                     >
-                      {m.source === "company" ? "Bizniki" : "Mijoznikini"}
+                      {m.source === "company" ? "Ombordan" : "Mijozniki"}
                     </span>
                   </div>
                 ))}

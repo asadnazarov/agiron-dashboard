@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { Employee, Material, ProductionMaterialLine, ProductRecipe } from "../lib/types";
 import { IconClose, IconPlus } from "./icons";
+import { ToggleSwitch } from "./ToggleSwitch";
 
 interface Row extends ProductionMaterialLine {
   key: number;
@@ -201,16 +202,15 @@ export function ProductionEntryModal({
                     <IconClose size={13} />
                   </button>
                 </div>
-                <div className="mt-2 flex gap-1.5">
-                  <SourceChip
-                    active={row.source === "company"}
-                    label="Bizniki"
-                    onClick={() => updateRow(row.key, { source: "company" })}
-                  />
-                  <SourceChip
-                    active={row.source === "client"}
-                    label="Mijoznikini"
-                    onClick={() => updateRow(row.key, { source: "client" })}
+                <div className="mt-2">
+                  <ToggleSwitch
+                    size="sm"
+                    value={row.source}
+                    onChange={(source) => updateRow(row.key, { source })}
+                    options={[
+                      { value: "company", label: "Ombordan" },
+                      { value: "client", label: "Mijozniki" },
+                    ]}
                   />
                 </div>
               </div>
@@ -237,21 +237,6 @@ export function ProductionEntryModal({
         </button>
       </div>
     </div>
-  );
-}
-
-function SourceChip({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="rounded-full px-2.5 py-1 text-[11.5px] font-medium"
-      style={{
-        background: active ? "var(--accent-soft)" : "var(--surface-2)",
-        color: active ? "var(--accent)" : "var(--ink-soft)",
-      }}
-    >
-      {label}
-    </button>
   );
 }
 

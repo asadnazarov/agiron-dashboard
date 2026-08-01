@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import type { Material } from "../lib/types";
 import { IconClose } from "./icons";
+import { ToggleSwitch } from "./ToggleSwitch";
 
 export function MaterialStockModal({
   materials,
@@ -49,9 +50,15 @@ export function MaterialStockModal({
         </div>
 
         {hasMaterials && (
-          <div className="mt-3 flex gap-2">
-            <ModeChip active={mode === "existing"} label="Mavjud xomashyo" onClick={() => setMode("existing")} />
-            <ModeChip active={mode === "new"} label="Yangi xomashyo" onClick={() => setMode("new")} />
+          <div className="mt-3">
+            <ToggleSwitch
+              value={mode}
+              onChange={setMode}
+              options={[
+                { value: "existing", label: "Mavjud xomashyo" },
+                { value: "new", label: "Yangi xomashyo" },
+              ]}
+            />
           </div>
         )}
 
@@ -122,22 +129,6 @@ export function MaterialStockModal({
         </button>
       </div>
     </div>
-  );
-}
-
-function ModeChip({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="rounded-full border px-3 py-1.5 text-[12.5px] font-medium"
-      style={{
-        borderColor: "var(--border)",
-        background: active ? "var(--accent-soft)" : "var(--surface)",
-        color: active ? "var(--accent)" : "var(--ink-soft)",
-      }}
-    >
-      {label}
-    </button>
   );
 }
 

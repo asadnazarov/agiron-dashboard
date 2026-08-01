@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ChecklistItem, Employee, Task, TaskStatus } from "../lib/types";
 import { StatusBadge } from "./StatusBadge";
 import { TaskEditModal } from "./TaskEditModal";
+import { IconCalendar, IconClose, IconEdit, IconTrash } from "./icons";
 
 function formatDate(iso: string): string {
   if (!iso) return "—";
@@ -105,10 +106,10 @@ export function TaskCard({
               {progress}%
             </span>
             <button onClick={() => setEditing(true)} aria-label="Tahrirlash" style={{ color: "var(--ink-faint)" }}>
-              ✏️
+              <IconEdit />
             </button>
             <button onClick={handleDelete} aria-label="O'chirish" style={{ color: "var(--ink-faint)" }}>
-              🗑️
+              <IconTrash />
             </button>
           </div>
         </div>
@@ -116,10 +117,10 @@ export function TaskCard({
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <StatusBadge status={task.status} />
           <span
-            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-medium"
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11.5px] font-medium"
             style={{ background: "var(--surface-2)", color: "var(--ink-soft)" }}
           >
-            📅 {task.deadlineDisplay || "Muddatsiz"}
+            <IconCalendar /> {task.deadlineDisplay || "Muddatsiz"}
           </span>
           <span className="text-[11.5px]" style={{ color: "var(--ink-faint)" }}>
             Berilgan: {formatDate(task.createdAt)}
@@ -168,7 +169,7 @@ export function TaskCard({
                 style={{ color: "var(--ink-faint)" }}
                 aria-label="O'chirish"
               >
-                ✕
+                <IconClose size={12} />
               </button>
             </div>
           ))}

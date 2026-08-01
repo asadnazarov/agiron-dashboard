@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { Material } from "../lib/types";
 import { MaterialStockModal } from "../components/MaterialStockModal";
+import { IconPlus } from "../components/icons";
 
 export function OmborPage() {
   const [materials, setMaterials] = useState<Material[]>([]);
@@ -36,21 +37,25 @@ export function OmborPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 pb-[220px] pt-10">
-      <h1 className="font-heading text-[30px] font-semibold" style={{ color: "var(--ink)" }}>
-        Ombor
-      </h1>
-      <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
-        Xomashyo qoldiqlari
-      </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-[30px] font-semibold" style={{ color: "var(--ink)" }}>
+            Ombor
+          </h1>
+          <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
+            Xomashyo qoldiqlari
+          </p>
+        </div>
 
-      <button
-        onClick={() => setModalOpen(true)}
-        className="font-heading mt-5 flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13.5px] font-semibold text-white"
-        style={{ background: "var(--accent)" }}
-        aria-label="Xomashyo qo'shish"
-      >
-        <span className="text-[16px]">+</span> Xomashyo qo'shish
-      </button>
+        <button
+          onClick={() => setModalOpen(true)}
+          className="font-heading flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-white"
+          style={{ background: "var(--accent)" }}
+          aria-label="Xomashyo qo'shish"
+        >
+          <IconPlus size={14} /> Qo'shish
+        </button>
+      </div>
 
       <div
         className="mt-4 overflow-hidden rounded-[20px] border"

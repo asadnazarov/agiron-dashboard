@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import type { ChecklistItem, Employee, Task, TaskStatus } from "../lib/types";
+import { IconClose, IconPlus } from "./icons";
 
 const STATUS_OPTIONS: { value: TaskStatus; label: string }[] = [
   { value: "new", label: "Yangi" },
@@ -86,7 +87,7 @@ export function TaskEditModal({
             Vazifani tahrirlash
           </h2>
           <button onClick={onClose} style={{ color: "var(--ink-faint)" }} aria-label="Yopish">
-            ✕
+            <IconClose />
           </button>
         </div>
 
@@ -161,17 +162,17 @@ export function TaskEditModal({
                   style={{ color: "var(--ink-faint)" }}
                   aria-label="O'chirish"
                 >
-                  ✕
+                  <IconClose size={13} />
                 </button>
               </div>
             ))}
           </div>
           <button
             onClick={addItem}
-            className="mt-2 text-[13px] font-medium"
+            className="mt-2 flex items-center gap-1.5 text-[13px] font-medium"
             style={{ color: "var(--accent)" }}
           >
-            + Band qo'shish
+            <IconPlus size={13} /> Band qo'shish
           </button>
         </div>
 

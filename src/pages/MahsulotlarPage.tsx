@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { Employee, Material, ProductionEntry, ProductionMaterialLine, ProductRecipe } from "../lib/types";
 import { ProductionEntryModal } from "../components/ProductionEntryModal";
+import { IconPlus, IconTrash } from "../components/icons";
 
 function formatDate(iso: string): string {
   if (!iso) return "—";
@@ -70,21 +71,25 @@ export function MahsulotlarPage({ employees }: { employees: Employee[] }) {
 
   return (
     <div className="mx-auto max-w-3xl px-6 pb-[220px] pt-10">
-      <h1 className="font-heading text-[30px] font-semibold" style={{ color: "var(--ink)" }}>
-        Mahsulotlar
-      </h1>
-      <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
-        Ishlab chiqarish tarixi va sarflangan xomashyo
-      </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-[30px] font-semibold" style={{ color: "var(--ink)" }}>
+            Mahsulotlar
+          </h1>
+          <p className="mt-1 text-[14px]" style={{ color: "var(--ink-soft)" }}>
+            Ishlab chiqarish tarixi va sarflangan xomashyo
+          </p>
+        </div>
 
-      <button
-        onClick={() => setModalOpen(true)}
-        className="font-heading mt-5 flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13.5px] font-semibold text-white"
-        style={{ background: "var(--accent)" }}
-        aria-label="Yangi yozuv qo'shish"
-      >
-        <span className="text-[16px]">+</span> Yangi yozuv qo'shish
-      </button>
+        <button
+          onClick={() => setModalOpen(true)}
+          className="font-heading flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-white"
+          style={{ background: "var(--accent)" }}
+          aria-label="Yangi yozuv qo'shish"
+        >
+          <IconPlus size={14} /> Yozuv qo'shish
+        </button>
+      </div>
 
       <div className="mt-4 space-y-4">
         {loading ? (
@@ -117,7 +122,7 @@ export function MahsulotlarPage({ employees }: { employees: Employee[] }) {
                     {entry.quantityProduced} dona
                   </span>
                   <button onClick={() => handleDelete(entry.id)} aria-label="O'chirish" style={{ color: "var(--ink-faint)" }}>
-                    🗑️
+                    <IconTrash />
                   </button>
                 </div>
               </div>

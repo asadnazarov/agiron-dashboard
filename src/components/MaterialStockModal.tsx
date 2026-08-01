@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import type { Material } from "../lib/types";
+import { IconClose } from "./icons";
 
 export function MaterialStockModal({
   materials,
@@ -43,7 +44,7 @@ export function MaterialStockModal({
             Xomashyo
           </h2>
           <button onClick={onClose} style={{ color: "var(--ink-faint)" }} aria-label="Yopish">
-            ✕
+            <IconClose />
           </button>
         </div>
 

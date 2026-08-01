@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { Employee, Material, ProductionMaterialLine, ProductRecipe } from "../lib/types";
+import { IconClose, IconPlus } from "./icons";
 
 interface Row extends ProductionMaterialLine {
   key: number;
@@ -97,7 +98,7 @@ export function ProductionEntryModal({
             Ishlab chiqarish yozuvi
           </h2>
           <button onClick={onClose} style={{ color: "var(--ink-faint)" }} aria-label="Yopish">
-            ✕
+            <IconClose />
           </button>
         </div>
 
@@ -197,7 +198,7 @@ export function ProductionEntryModal({
                     style={{ borderColor: "var(--border)", background: "var(--bg)", color: "var(--ink)" }}
                   />
                   <button onClick={() => removeRow(row.key)} style={{ color: "var(--ink-faint)" }} aria-label="O'chirish">
-                    ✕
+                    <IconClose size={13} />
                   </button>
                 </div>
                 <div className="mt-2 flex gap-1.5">
@@ -217,8 +218,12 @@ export function ProductionEntryModal({
           </div>
           )}
           {materials.length > 0 && (
-            <button onClick={addRow} className="mt-2 text-[13px] font-medium" style={{ color: "var(--accent)" }}>
-              + Xomashyo qo'shish
+            <button
+              onClick={addRow}
+              className="mt-2 flex items-center gap-1.5 text-[13px] font-medium"
+              style={{ color: "var(--accent)" }}
+            >
+              <IconPlus size={13} /> Xomashyo qo'shish
             </button>
           )}
         </div>
